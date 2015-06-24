@@ -17,14 +17,25 @@ class MemoryModel:
 		return self.columns
 
 	def select_item(self, i: int, j: int) -> bool:
+		if self.grid[i][j] is None:
+			return False
+
 		if len(self.selected_coords) < 1:
 			self.selected_coords.append((i, j))
 			return False
+
 		elif len(self.selected_coords == 1):
 			self.selected_coords.append((i, j))
+
 		selected_vals = self.get_selected_values()
+		match = selected_vals[0] == selected_vals[1]
+		if match:
+			for coord in self.selected_coords:
+				i, j = *coord
+				self.grid[i][j] = None
+
 		self.selected_coords.clear()
-		return selected_vals[0] == selected_vals[1]
+		return match
 
 	def get_selected_item_coords(self) -> list:
 		return self.selected_coords
