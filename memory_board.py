@@ -1,4 +1,4 @@
-import random
+from random import shuffle
 
 
 class MemoryModel:
@@ -48,7 +48,7 @@ class MemoryModel:
 		for i in range(1, max_val + 1):
 			values.append(i)
 			values.append(i)
-		random.shuffle(values)
+		shuffle(values)
 		return values
 
 	def generate_grid(self, rows: int, columns: int, values: list) -> list:
@@ -61,7 +61,7 @@ class MemoryModel:
 				grid[i][j] = values[i * columns + j]
 		return grid
 
-	def print_grid(self, show_values: bool=False):
+	def grid_str_representation(self, show_values: bool=False) -> str:
 		grid_str = ''
 		if show_values:
 			spacing = ' ' + ' ' * len(str(max(self.values)))
@@ -90,7 +90,7 @@ class MemoryModel:
 						grid_str += spacing[1:] + 'x'
 					grid_str += spacing[1:] + ']\n'
 
-		print(grid_str)
+		return grid_str
 
 	def get_selected_values(self) -> tuple:
 		selected_vals = []
