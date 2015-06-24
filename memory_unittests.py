@@ -1,4 +1,6 @@
 import unittest
 
-class MatrixTest:
-	
+
+class Test(unittest.TestCase):
+	def test(self):
+		pass
