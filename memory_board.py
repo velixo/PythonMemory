@@ -1,7 +1,7 @@
 import random
 
 
-class MemoryBoard:
+class MemoryModel:
 
 	def __init__(self, rows: int, columns: int):
 		self.rows = rows
