@@ -9,6 +9,7 @@ class MemoryModel:
 		self.selected_coords = []
 		self.values = self.generate_values(rows, columns)
 		self.grid = self.generate_grid(rows, columns, self.values)
+		self.matched_coord_pairs
 
 	def get_rows(self) -> int:
 		return self.rows
@@ -16,31 +17,34 @@ class MemoryModel:
 	def get_columns(self) -> int:
 		return self.columns
 
-	def select_item(self, i: int, j: int) -> bool:
-		if self.grid[i][j] is None:
-			return False
-
-		if len(self.selected_coords) < 1:
-			self.selected_coords.append((i, j))
-			return False
-
-		elif len(self.selected_coords) == 1:
+	def select_item(self, i: int, j: int) -> tuple:
+		if not self.matched_coord_pairs.contains((i, j)):
 			self.selected_coords.append((i, j))
 
-		selected_vals = self.get_selected_values()
-		match = selected_vals[0] == selected_vals[1]
-		if match:
-			for coord in self.selected_coords:
-				i, j = coord
-				self.grid[i][j] = None
+		if len(self.selected_coords) > 1:
+			selected_vals = self.get_selected_values()
+			match = selected_vals[0] == selected_vals[1]
+			if match:
+				matched_coords = tuple(self.selected_coords)
+				for coord in matched_coords:
+					i, j = coord
+					self.grid[i][j] = None
 
-		self.selected_coords.clear()
-		return match
+				self.selected_coords.clear()
+				self.matched_coord_pairs.append(matched_coords)
+				return matched_coords
+			else:
+				self.selected_coords.clear()
 
-	def get_selected_item_coords(self) -> list:
-		return self.selected_coords
+		return ()
 
-	def generate_values(self, rows: int, columns: int) -> list:
+	def get_selected_item_coords(self) -> tuple:
+		return tuple(self.selected_coords)
+
+	def get_matched_coord_pairs(self) -> tuple:
+		return tuple(self.matched_coord_pairs)
+
+	def generate_values(self, rows: int, columns: int) -> tuple:
 		if (rows * columns) % 2 != 0:
 			raise ValueError('rows * columns must be an even number')
 		values = []
@@ -49,7 +53,7 @@ class MemoryModel:
 			values.append(i)
 			values.append(i)
 		shuffle(values)
-		return values
+		return tuple(values)
 
 	def generate_grid(self, rows: int, columns: int, values: list) -> list:
 		grid = [None] * rows
@@ -77,7 +81,9 @@ class MemoryModel:
 			selected_vals = self.get_selected_values()
 			# added an extra space as the length of a stringifed
 			# value in the grid is always at least 1
-			spacing = ' ' * len(str(max(selected_vals))) + ' '
+			spacing = ' '
+			if len(selected_vals) > 0:
+				spacing += ' ' * len(str(max(selected_vals)))
 
 			for i in range(self.rows):
 				grid_str += '['
