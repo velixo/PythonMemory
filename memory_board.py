@@ -31,7 +31,7 @@ class MemoryModel:
 		match = selected_vals[0] == selected_vals[1]
 		if match:
 			for coord in self.selected_coords:
-				i, j = *coord
+				i, j = coord
 				self.grid[i][j] = None
 
 		self.selected_coords.clear()
@@ -95,6 +95,6 @@ class MemoryModel:
 	def get_selected_values(self) -> tuple:
 		selected_vals = []
 		for coord in self.selected_coords:
-			i, j = *coord
+			i, j = coord
 			selected_vals.append(self.grid[i][j])
 		return (val for val in selected_vals)
