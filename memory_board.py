@@ -24,7 +24,7 @@ class MemoryModel:
 			self.selected_coords.append((i, j))
 			return False
 
-		elif len(self.selected_coords == 1):
+		elif len(self.selected_coords) == 1:
 			self.selected_coords.append((i, j))
 
 		selected_vals = self.get_selected_values()
@@ -52,9 +52,9 @@ class MemoryModel:
 		return values
 
 	def generate_grid(self, rows: int, columns: int, values: list) -> list:
-		grid = [None] * columns
-		for i in range(columns):
-			grid[i] = [None] * rows
+		grid = [None] * rows
+		for i in range(rows):
+			grid[i] = [None] * columns
 
 		for i in range(rows):
 			for j in range(columns):
@@ -97,4 +97,4 @@ class MemoryModel:
 		for coord in self.selected_coords:
 			i, j = coord
 			selected_vals.append(self.grid[i][j])
-		return (val for val in selected_vals)
+		return tuple(selected_vals)
