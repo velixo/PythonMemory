@@ -9,7 +9,7 @@ class MemoryModel:
 		self.selected_coords = []
 		self.values = self.generate_values(rows, columns)
 		self.grid = self.generate_grid(rows, columns, self.values)
-		self.matched_coord_pairs
+		self.matched_coord_pairs = []
 
 	def get_rows(self) -> int:
 		return self.rows
@@ -18,7 +18,7 @@ class MemoryModel:
 		return self.columns
 
 	def select_item(self, i: int, j: int) -> tuple:
-		if not self.matched_coord_pairs.contains((i, j)):
+		if (i, j) not in self.matched_coord_pairs:
 			self.selected_coords.append((i, j))
 
 		if len(self.selected_coords) > 1:
@@ -38,7 +38,7 @@ class MemoryModel:
 
 		return ()
 
-	def get_selected_item_coords(self) -> tuple:
+	def get_selected_coords(self) -> tuple:
 		return tuple(self.selected_coords)
 
 	def get_matched_coord_pairs(self) -> tuple:
