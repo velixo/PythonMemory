@@ -7,8 +7,8 @@ class MemoryModel:
 		self.rows = rows
 		self.columns = columns
 		self.selected_coords = []
-		self.values = self.generate_values(rows, columns)
-		self.grid = self.generate_grid(rows, columns, self.values)
+		self.values = self.__generate_values(rows, columns)
+		self.grid = self.__generate_grid(rows, columns, self.values)
 		self.matched_coord_pairs = []
 
 	def get_rows(self) -> int:
@@ -41,10 +41,17 @@ class MemoryModel:
 	def get_selected_coords(self) -> tuple:
 		return tuple(self.selected_coords)
 
+	def get_selected_values(self) -> tuple:
+		selected_vals = []
+		for coord in self.selected_coords:
+			i, j = coord
+			selected_vals.append(self.grid[i][j])
+		return tuple(selected_vals)
+
 	def get_matched_coord_pairs(self) -> tuple:
 		return tuple(self.matched_coord_pairs)
 
-	def generate_values(self, rows: int, columns: int) -> tuple:
+	def __generate_values(self, rows: int, columns: int) -> tuple:
 		if (rows * columns) % 2 != 0:
 			raise ValueError('rows * columns must be an even number')
 		values = []
@@ -55,7 +62,7 @@ class MemoryModel:
 		shuffle(values)
 		return tuple(values)
 
-	def generate_grid(self, rows: int, columns: int, values: list) -> list:
+	def __generate_grid(self, rows: int, columns: int, values: list) -> list:
 		grid = [None] * rows
 		for i in range(rows):
 			grid[i] = [None] * columns
@@ -97,10 +104,3 @@ class MemoryModel:
 					grid_str += spacing[1:] + ']\n'
 
 		return grid_str
-
-	def get_selected_values(self) -> tuple:
-		selected_vals = []
-		for coord in self.selected_coords:
-			i, j = coord
-			selected_vals.append(self.grid[i][j])
-		return tuple(selected_vals)
