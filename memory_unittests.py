@@ -29,38 +29,54 @@ class MemoryBoardTest(unittest.TestCase):
 
 	def testSelection(self):
 		memory = MemoryModel(rows, columns)
-
+		empty_tuple = ()
 		first_val = memory.grid[0][0]
-		# Get a coord with same value as the one at (0, 0)
+
+		# Find coord with a value that is equal to first_val
 		fval_matching_coord = None
 		for i in range(rows):
 			for j in range(columns):
 				if (i, j) != (0, 0):  # Skip (0, 0), coord already chosen
 					if memory.grid[i][j] == first_val:
 						fval_matching_coord = (i, j)
-
 		self.assertIsNotNone(fval_matching_coord)
-		self.assertEqual(memory.selected_coords, [])
 
-		first_sel_res = memory.select_item(0, 0)
-		self.assertFalse(first_sel_res)
-		self.assertIn((0, 0), memory.selected_coords)
-
-		# Find coord of value other than first_val
+		# Find coord with a value that is NOT equal to first_val
 		nonmatching_coord = (0, 0)
 		while nonmatching_coord in ((0, 0), fval_matching_coord):
 			i = randint(0, rows - 1)
 			j = randint(0, columns - 1)
 			nonmatching_coord = (i, j)
+		self.assertNotEqual(nonmatching_coord, (0, 0))
+		self.assertNotEqual(nonmatching_coord, fval_matching_coord)
 
+		# Check that all selections/matchings are empty
+		self.assertEqual(memory.get_selected_coords(), empty_tuple)
+		self.assertEqual(memory.get_matched_coord_pairs(), empty_tuple)
+
+		# Check that first selection returns nothing, gets added to list of selected
+		# coords and adds nothing to the list of matched coord pairs
+		first_sel_res = memory.select_item(0, 0)
+		self.assertEqual(first_sel_res, empty_tuple)
+		self.assertIn((0, 0), memory.get_selected_coords())
+		self.assertEqual(memory.get_matched_coord_pairs(), empty_tuple)
+
+		# Check that second selection, with a nonmatching coord, returns nothing,
+		# clears the list of selected coords and adds nothing to the list of matched
+		# coord pairs
 		second_sel_res = memory.select_item(*nonmatching_coord)
-		self.assertFalse(second_sel_res)
-		self.assertEqual(memory.selected_coords, [])
+		self.assertEqual(second_sel_res, empty_tuple)
+		self.assertEqual(memory.get_selected_coords(), empty_tuple)
+		self.assertEqual(memory.get_matched_coord_pairs(), empty_tuple)
 
+		# Check that selecting two matching coords returns the coord pair, clears the
+		# list of selected coord and adds it to the list of matched coord pairs
 		memory.select_item(0, 0)
 		third_sel_res = memory.select_item(*fval_matching_coord)
-		self.assertTrue(third_sel_res)
-		self.assertEqual(memory.selected_coords, [])
+		expected_coords = ((0, 0), fval_matching_coord)
+		self.assertEqual(third_sel_res, expected_coords)
+		self.assertEqual(memory.get_selected_coords(), empty_tuple)
+		self.assertEqual(memory.get_matched_coord_pairs()[0], expected_coords)
 
 	def testPrintGrid(self):
 		memory = MemoryModel(rows, columns)
