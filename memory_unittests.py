@@ -17,15 +17,15 @@ class MemoryBoardTest(unittest.TestCase):
 
 		# Check grid is correctly filled with values
 		for n in range(1, len(memory.values)):
-			i = n / columns
-			j = n % columns
+			i = (int)(n / columns)
+			j = (int)(n % columns)
 			self.assertEqual(memory.grid[i][j], memory.values[n])
 
 	def testIncorrectInitialization(self):
 		incorr_rows = 3
 		incorr_cols = 3
 		self.assertNotEqual(incorr_rows * incorr_cols % 2, 0)
-		self.assertRaises(ValueError, MemoryModel(), (incorr_rows, incorr_cols))
+		self.assertRaises(ValueError, MemoryModel, incorr_rows, incorr_cols)
 
 	def testSelection(self):
 		memory = MemoryModel(rows, columns)
@@ -64,7 +64,7 @@ class MemoryBoardTest(unittest.TestCase):
 
 	def testPrintGrid(self):
 		memory = MemoryModel(rows, columns)
-		grid_repr = memory.grid_str_representation()
+		grid_repr = memory.grid_str_representation(True)
 		grid_str = str(memory.grid)
 
 		# Remove all commas, spaces and newlines  from both string representations of
