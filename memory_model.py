@@ -98,7 +98,7 @@ class MemoryModel:
 			for i in range(self.rows):
 				grid_str += '['
 				for j in range(self.columns):
-					if self.selected_coords.contains((i, j)):
+					if (i, j) in self.selected_coords:
 						val = self.grid[i][j]
 						adjusted_space = spacing[len(str(val)):]
 						grid_str += adjusted_space + str(val)
