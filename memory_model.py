@@ -75,7 +75,7 @@ class MemoryModel:
 				grid[i][j] = values[i * columns + j]
 		return grid
 
-	def grid_str_representation(self, show_values: bool=False) -> str:
+	def grid_str_repr(self, show_values: bool=False) -> str:
 		grid_str = ''
 		if show_values:
 			spacing = ' ' + ' ' * len(str(max(self.values)))

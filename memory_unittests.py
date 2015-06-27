@@ -80,7 +80,7 @@ class MemoryBoardTest(unittest.TestCase):
 
 	def testPrintGrid(self):
 		memory = MemoryModel(rows, columns)
-		grid_repr = memory.grid_str_representation(True)
+		grid_repr = memory.grid_str_repr(True)
 		grid_str = str(memory.grid)
 
 		# Remove all commas, spaces and newlines  from both string representations of
