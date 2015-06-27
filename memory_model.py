@@ -17,7 +17,7 @@ class MemoryModel:
 	def get_columns(self) -> int:
 		return self.columns
 
-	def get_val_at(self, i: int, j: int):
+	def get_val_at(self, i: int, j: int) -> int:
 		return self.grid[i][j]
 
 	def select_item(self, i: int, j: int) -> tuple:
