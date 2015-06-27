@@ -17,6 +17,9 @@ class MemoryModel:
 	def get_columns(self) -> int:
 		return self.columns
 
+	def get_val_at(self, i: int, j: int):
+		return self.grid[i][j]
+
 	def select_item(self, i: int, j: int) -> tuple:
 		if (i, j) not in self.matched_coord_pairs:
 			self.selected_coords.append((i, j))
