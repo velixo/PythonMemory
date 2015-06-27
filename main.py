@@ -3,7 +3,7 @@ import memory_gui
 
 rows, columns = (4, 5)
 memory = memory_model.MemoryModel(rows, columns)
-print(memory.grid_str_repr())
+print(memory.grid_str_repr(True))
 
 
 def btn_callback(i: int, j: int, val: int):
