@@ -12,21 +12,19 @@ class MemoryWindow:
 		self.root = tkinter.Tk()
 		self.root.title("Memory")
 		self.content = tkinter.Frame(self.root)
-		self.btn_grid = tkinter.Frame(
-			self.content, borderwidth=5,
-			width=500, height=400
-		)
 
 		for i in range(self.rows):
 			for j in range(self.columns):
 				val = self.memory.get_val_at(i, j)
 				grid_btn = tkinter.Button(
-					self.btn_grid,
+					# self.btn_grid,
+					self.content,
 					text=str(val),
-					command=lambda: btn_callback(i, j, val),
+					width=8,
+					height=3,
+					command=lambda i=i, j=j, val=val: btn_callback(i, j, val)
 				)
 				grid_btn.grid(row=i, column=j, sticky="NSWE")
 
 		self.content.grid(row=0, column=0)
-		self.btn_grid.grid(row=0, column=0)
 		self.root.mainloop()
