@@ -43,8 +43,6 @@ class MemoryWindow:
 		root.mainloop()
 
 	def show_values(self, show: bool):
-		# print('show_values')
-		# print('checkbtn_checked = ' + str(self.checkbtn_checked.get()))
 		for i in range(self.rows):
 			for j in range(self.columns):
 				if show:
