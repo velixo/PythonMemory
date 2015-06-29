@@ -30,7 +30,7 @@ class MemoryWindow:
 				val = memory.get_val_at(i, j)
 				grid_btn = tkinter.Button(
 					content,
-					text=str(val),
+					text='X',
 					width=8,
 					height=3,
 					command=lambda i=i, j=j, val=val: btn_callback(i, j, val))
