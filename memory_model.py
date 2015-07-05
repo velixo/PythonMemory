@@ -9,7 +9,7 @@ class MemoryModel:
 		self.selected_coords = []
 		self.values = self.__generate_values(rows, columns)
 		self.grid = self.__generate_grid(rows, columns, self.values)
-		self.matched_coord_pairs = []
+		self.matched_coords = []
 
 	def get_rows(self) -> int:
 		return self.rows
@@ -20,26 +20,43 @@ class MemoryModel:
 	def get_val_at(self, i: int, j: int) -> int:
 		return self.grid[i][j]
 
-	def select_item(self, i: int, j: int) -> tuple:
-		if (i, j) not in self.matched_coord_pairs:
-			self.selected_coords.append((i, j))
+	def select_item(self, i: int, j: int) -> bool:
 
 		if len(self.selected_coords) > 1:
-			selected_vals = self.get_selected_values()
-			match = selected_vals[0] == selected_vals[1]
-			if match:
-				matched_coords = tuple(self.selected_coords)
-				for coord in matched_coords:
-					i, j = coord
-					self.grid[i][j] = None
-
+			if self.selected_coords[0] == self.selected_coords[1]:
 				self.selected_coords.clear()
-				self.matched_coord_pairs.append(matched_coords)
-				return matched_coords
+				self.selected_coords.append((i, j))
+				return False
 			else:
+				first_coord_val = self.get_val_at(*self.selected_coords[0])
+				second_coord_val = self.get_val_at(*self.selected_coords[1])
+				match = first_coord_val == second_coord_val
 				self.selected_coords.clear()
+				self.selected_coords.append((i, j))
+				return match
 
-		return ()
+		elif (i, j) not in self.matched_coords:
+			self.selected_coords.append((i, j))
+
+		return False
+
+# 		if len(self.selected_coords) > 1:
+#
+# 			selected_vals = self.get_selected_values()
+# 			match = selected_vals[0] == selected_vals[1]
+# 			if match:
+# 				for coord in self.selected_coords:
+# 					i, j = coord
+# 					self.grid[i][j] = None
+#
+# 				for coord in self.selected_coords:
+# 					self.matched_coords.append(coord)
+# 				self.selected_coords.clear()
+# 				return True
+# 			else:
+# 				self.selected_coords.clear()
+#
+# 		return False
 
 	def get_selected_coords(self) -> tuple:
 		return tuple(self.selected_coords)
@@ -51,8 +68,8 @@ class MemoryModel:
 			selected_vals.append(self.grid[i][j])
 		return tuple(selected_vals)
 
-	def get_matched_coord_pairs(self) -> tuple:
-		return tuple(self.matched_coord_pairs)
+	def get_matched_coords(self) -> tuple:
+		return tuple(self.matched_coords)
 
 	def __generate_values(self, rows: int, columns: int) -> tuple:
 		if (rows * columns) % 2 != 0:
@@ -89,7 +106,7 @@ class MemoryModel:
 
 		else:
 			selected_vals = self.get_selected_values()
-			# added an extra space as the length of a stringifed
+			# added an extra space, as the length of a stringifed
 			# value in the grid is always at least 1
 			spacing = ' '
 			if len(selected_vals) > 0:
