@@ -9,7 +9,6 @@ score = 0
 
 def btn_callback(i: int, j: int, gui: MemoryWindow):
 	global score
-	print(' gui = ' + str(gui) + '\n')  # #####
 	rows = memory.get_rows()
 	columns = memory.get_columns()
 	val = memory.get_val_at(i, j)
@@ -21,10 +20,8 @@ def btn_callback(i: int, j: int, gui: MemoryWindow):
 	for n in range(rows):
 		for m in range(columns):
 			if (n, m) in matched_coords:
-				# print(str((n, m)) + ' in matched_coords\n')  # #####
 				gui.set_btn_text(n, m, 'M')
 			elif (n, m) in selected_coords:
-				print(str((n, m)) + ' in ' + str(selected_coords) + ' \n')  # #####
 				coord_val = memory.get_val_at(n, m)
 				gui.set_btn_text(n, m, str(coord_val))
 			else:

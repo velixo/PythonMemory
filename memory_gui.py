@@ -44,7 +44,6 @@ class MemoryWindow:
 		self.root.mainloop()
 
 	def show_values(self, show: bool):
-		print('self = ' + str(self) + '\n')  # #####
 		for i in range(self.rows):
 			for j in range(self.columns):
 				if show:
@@ -54,5 +53,4 @@ class MemoryWindow:
 					self.btns[i][j].config(text='X')
 
 	def set_btn_text(self, i: int, j: int, txt: str):
-		# print(str(i) + str(j) + txt)
 		self.btns[i][j].config(text=txt)
